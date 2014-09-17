@@ -10,7 +10,7 @@ public class Main {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPER_STATUS_NAME = "sniper status";
     public static final String STATUS_LOST = "";
-    static String STATUS_JOINING = "";
+    static String STATUS_JOINING = "Joining";
     private MainWindow ui;
 
     public Main() throws InvocationTargetException, InterruptedException {
