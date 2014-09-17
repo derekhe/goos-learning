@@ -1,3 +1,5 @@
+package com.april1985.goos;
+
 import com.april1985.goos.ApplicationRunner;
 import com.april1985.goos.FakeAuctionServer;
 import org.junit.After;
