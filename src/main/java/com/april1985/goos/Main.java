@@ -20,7 +20,7 @@ public class Main {
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
-    ;
+    
     private static MainWindow ui;
 
     public Main() throws Exception {
@@ -30,8 +30,11 @@ public class Main {
     public static void main(String... args) throws Exception {
         Main main = new Main();
 
-        XMPPConnection connection = connectTo(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
-        Chat chat = connection.getChatManager().createChat(auctionId(args[ARG_ITEM_ID], connection),
+        main.joinAuction(connectTo(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]), args[ARG_ITEM_ID]);
+    }
+
+    private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+        Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection),
                 new MessageListener() {
                     @Override
                     public void processMessage(Chat chat, Message message) {
