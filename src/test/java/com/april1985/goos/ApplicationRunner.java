@@ -1,8 +1,8 @@
 package com.april1985.goos;
 
 import static com.april1985.goos.FakeAuctionServer.XMPP_HOSTNAME;
-import static com.april1985.goos.Main.STATUS_JOINING;
-import static com.april1985.goos.Main.STATUS_LOST;
+import static com.april1985.goos.MainWindow.STATUS_JOINING;
+import static com.april1985.goos.MainWindow.STATUS_LOST;
 
 /**
  * Created by sche on 9/17/14.

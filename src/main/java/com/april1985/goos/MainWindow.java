@@ -5,14 +5,14 @@ import javax.swing.border.LineBorder;
 
 import java.awt.*;
 
-import static com.april1985.goos.Main.MAIN_WINDOW_NAME;
-import static com.april1985.goos.Main.SNIPER_STATUS_NAME;
-import static com.april1985.goos.Main.STATUS_JOINING;
-
 /**
  * Created by sche on 9/17/14.
  */
 public class MainWindow extends JFrame {
+    static String STATUS_JOINING = "Joining";
+    public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
+    public static final String SNIPER_STATUS_NAME = "sniper status";
+    public static final String STATUS_LOST = "Lost";
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
     private JLabel createLabel(String initialText) {
@@ -29,5 +29,9 @@ public class MainWindow extends JFrame {
         add(sniperStatus);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void showStatus(String status) {
+        sniperStatus.setText(status);
     }
 }
