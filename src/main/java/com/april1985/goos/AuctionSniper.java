@@ -6,7 +6,7 @@ package com.april1985.goos;
 public class AuctionSniper implements AuctionEventListener {
     private SniperListener sniperListener;
 
-    public AuctionSniper(SniperListener sniperListener) {
+    public AuctionSniper(Auction auction, SniperListener sniperListener) {
         this.sniperListener = sniperListener;
     }
 
