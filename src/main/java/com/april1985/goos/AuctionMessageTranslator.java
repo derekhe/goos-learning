@@ -7,7 +7,13 @@ import org.jivesoftware.smack.packet.Message;
  * Created by sche on 9/18/14.
  */
 public class AuctionMessageTranslator {
-    public void processMessage(Chat chat, Message message) {
+    private AuctionEventListener listener;
 
+    public AuctionMessageTranslator(AuctionEventListener listener) {
+        this.listener = listener;
+    }
+
+    public void processMessage(Chat chat, Message message) {
+        listener.auctionClosed();
     }
 }
