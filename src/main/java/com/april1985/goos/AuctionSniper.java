@@ -5,9 +5,11 @@ package com.april1985.goos;
  */
 public class AuctionSniper implements AuctionEventListener {
     private SniperListener sniperListener;
+    private final Auction auction;
 
     public AuctionSniper(Auction auction, SniperListener sniperListener) {
         this.sniperListener = sniperListener;
+        this.auction = auction;
     }
 
     public void auctionClosed() {
@@ -16,6 +18,7 @@ public class AuctionSniper implements AuctionEventListener {
 
     @Override
     public void currentPrice(int price, int increment) {
-
+        auction.bid(price + increment);
+        sniperListener.sniperBidding();
     }
 }
