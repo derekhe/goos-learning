@@ -1,8 +1,5 @@
 package com.april1985.goos;
 
-import com.april1985.goos.ApplicationRunner;
-import com.april1985.goos.FakeAuctionServer;
-import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
 import org.junit.Test;
 
@@ -16,8 +13,10 @@ public class AuctionSniperEndToEndTest {
     @Test
     public void sniperJoinsAuctionUntilAuctionCloses() throws Exception {
         auction.startSellingItem();
+
         application.startBiddingIn(auction);
         auction.hasReceivedJoinRequestFromSniper();
+
         auction.announceClosed();
         application.showSniperHasLostAuction();
     }
@@ -39,13 +38,12 @@ public class AuctionSniperEndToEndTest {
     }
 
     @After
-    public void stopAuction()
-    {
+    public void stopAuction() {
         auction.stop();
     }
 
-    @After public void stopApplication()
-    {
+    @After
+    public void stopApplication() {
         application.stop();
     }
 }

@@ -10,7 +10,7 @@ import static com.april1985.goos.MainWindow.STATUS_LOST;
 public class ApplicationRunner {
     private static final String SNIPER_ID = "sniper";
     private static final String SNPIER_PASSWORD = "sniper";
-    public static final String SNIPER_XMPP_ID = "";
+    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
     private AuctionSniperDriver driver;
 
     public void startBiddingIn(final FakeAuctionServer auction) {
