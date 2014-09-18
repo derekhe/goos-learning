@@ -22,8 +22,4 @@ public class AuctionSniperDriver extends JFrameDriver {
     public void showSniperStatus(String statusTExt) {
         new JLabelDriver(this, named(MainWindow.SNIPER_STATUS_NAME)).hasText(equalTo(statusTExt));
     }
-
-    public void dispose() {
-
-    }
 }
