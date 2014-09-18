@@ -22,6 +22,7 @@ public class Main {
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
     
     private static MainWindow ui;
+    private Chat notToBeGCd;
 
     public Main() throws Exception {
         startUserInterface();
@@ -47,6 +48,7 @@ public class Main {
                     }
                 }
         );
+        this.notToBeGCd = chat;
         chat.sendMessage(new Message());
     }
 
