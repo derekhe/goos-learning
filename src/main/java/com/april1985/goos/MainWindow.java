@@ -9,6 +9,7 @@ import java.awt.*;
  * Created by sche on 9/17/14.
  */
 public class MainWindow extends JFrame {
+    public static final String STATUS_BIDDING = "Bidding";
     static String STATUS_JOINING = "Joining";
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPER_STATUS_NAME = "sniper status";

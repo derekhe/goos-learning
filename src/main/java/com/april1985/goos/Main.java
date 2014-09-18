@@ -20,7 +20,9 @@ public class Main {
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
-    
+    public static final String BID_COMMAND_FORMAT = "";
+    public static final String JOIN_COMMAND_FORMAT = "";
+
     private static MainWindow ui;
     private Chat notToBeGCd;
 
@@ -49,7 +51,7 @@ public class Main {
                 }
         );
         this.notToBeGCd = chat;
-        chat.sendMessage(new Message());
+        chat.sendMessage(JOIN_COMMAND_FORMAT);
     }
 
     private static String auctionId(String itemId, XMPPConnection connection) {

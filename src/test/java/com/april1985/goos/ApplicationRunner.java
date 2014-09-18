@@ -10,6 +10,7 @@ import static com.april1985.goos.MainWindow.STATUS_LOST;
 public class ApplicationRunner {
     private static final String SNIPER_ID = "sniper";
     private static final String SNPIER_PASSWORD = "sniper";
+    public static final String SNIPER_XMPP_ID = "";
     private AuctionSniperDriver driver;
 
     public void startBiddingIn(final FakeAuctionServer auction) {
@@ -38,5 +39,9 @@ public class ApplicationRunner {
             driver.dispose();
         }
 
+    }
+
+    public void hasShownSniperIsBidding() {
+        driver.showSniperStatus(MainWindow.STATUS_BIDDING);
     }
 }
