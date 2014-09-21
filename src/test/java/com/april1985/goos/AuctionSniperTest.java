@@ -49,6 +49,22 @@ public class AuctionSniperTest {
     }
 
     @Test
+    public void reportsWonIfAuctionClosesWhenWinning() {
+        context.checking(new Expectations() {
+            {
+                ignoring(auction);
+                allowing(sniperListener).sniperWinning();
+                then(sniperStates.is("winning"));
+                atLeast(1).of(sniperListener).sniperWon();
+                when(sniperStates.is("winning"));
+            }
+        });
+
+        sniper.currentPrice(123, 45, FromSniper);
+        sniper.auctionClosed();
+    }
+
+    @Test
     public void bidsHigherAndReportsBiddingWhenNewPriceArrives() {
         final int price = 1001;
         final int increment = 25;
