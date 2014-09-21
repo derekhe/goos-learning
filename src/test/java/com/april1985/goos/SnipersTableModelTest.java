@@ -16,7 +16,7 @@ import static com.april1985.goos.MainWindow.Column;
 import static com.april1985.goos.MainWindow.SnipersTableModel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @RunWith(JMock.class)
 public class SnipersTableModelTest extends TestCase {
@@ -43,13 +43,16 @@ public class SnipersTableModelTest extends TestCase {
         model.sniperStatusChanged(new SniperState("item id", 555, 666), MainWindow.STATUS_BIDDING);
 
         assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
+        assertColumnEquals(Column.LAST_PRICE, 555);
+        assertColumnEquals(Column.LAST_BID, 666);
+        assertColumnEquals(Column.SNIPER_STATUS, MainWindow.STATUS_BIDDING);
     }
 
     private Matcher<TableModelEvent> aRowChangedEvent() {
         return samePropertyValuesAs(new TableModelEvent(model, 0));
     }
 
-    private void assertColumnEquals(Column column, String expected) {
+    private void assertColumnEquals(Column column, Object expected) {
         final int rowIndex = 0;
         final int columnIndex = column.ordinal();
         assertEquals(expected, model.getValueAt(rowIndex, columnIndex));
