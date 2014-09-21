@@ -2,6 +2,7 @@ package com.april1985.goos;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.jmock.States;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,15 +19,32 @@ public class AuctionSniperTest {
     private final Auction auction = context.mock(Auction.class);
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener);
+    private final States sniperStates = context.states("sniper");
 
     @Test
-    public void reportsLostWhenAuctionCloses() {
+    public void reportsLostWhenAuctionClosesImmediately() {
         context.checking(new Expectations() {
             {
                 one(sniperListener).sniperLost();
             }
         });
 
+        sniper.auctionClosed();
+    }
+
+    @Test
+    public void reportsLostIfAuctionClosesWhenBidding() {
+        context.checking(new Expectations() {
+            {
+                ignoring(auction);
+                allowing(sniperListener).sniperBidding();
+                then(sniperStates.is("bidding"));
+                atLeast(1).of(sniperListener).sniperLost();
+                when(sniperStates.is("bidding"));
+            }
+        });
+
+        sniper.currentPrice(123, 45, FromOtherBidder);
         sniper.auctionClosed();
     }
 
