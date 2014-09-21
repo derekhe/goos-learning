@@ -120,6 +120,7 @@ public class Main {
 
         @Override
         public void sniperWinning() {
+            showStatus(MainWindow.STATUS_WINNING);
         }
 
         private void showStatus(final String status) {

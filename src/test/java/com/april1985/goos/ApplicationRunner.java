@@ -48,4 +48,8 @@ public class ApplicationRunner {
     public void hasShownSniperIsWinning() {
         driver.showSniperStatus(MainWindow.STATUS_WINNING);
     }
+
+    public void showSniperHasWonAuction() {
+        driver.showSniperStatus(MainWindow.STATUS_WON);
+    }
 }

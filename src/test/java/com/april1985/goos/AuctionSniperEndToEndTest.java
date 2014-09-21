@@ -54,7 +54,7 @@ public class AuctionSniperEndToEndTest {
         application.hasShownSniperIsWinning();
 
         auction.announceClosed();
-        application.showSniperHasLostAuction();
+        application.showSniperHasWonAuction();
     }
 
     @After
