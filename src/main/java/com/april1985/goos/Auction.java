@@ -5,4 +5,6 @@ package com.april1985.goos;
  */
 public interface Auction {
     public void bid(int increment);
+
+    public void join();
 }

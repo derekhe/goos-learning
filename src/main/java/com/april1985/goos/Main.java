@@ -9,6 +9,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 
+import static java.lang.String.format;
+
 /**
  * Created by sche on 9/17/14.
  */
@@ -44,19 +46,35 @@ public class Main implements SniperListener {
         );
         this.notToBeGCd = chat;
 
-        Auction auction = new Auction() {
-            @Override
-            public void bid(int amount) {
-                try {
-                    chat.sendMessage(String.format(BID_COMMAND_FORMAT, amount));
-                } catch (XMPPException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+        Auction auction = new XMPPAuction(chat);
 
         chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
-        chat.sendMessage(JOIN_COMMAND_FORMAT);
+        auction.join();
+    }
+
+    public static class XMPPAuction implements Auction {
+        private final Chat chat;
+
+        public XMPPAuction(Chat chat) {
+            this.chat = chat;
+        }
+
+        @Override
+        public void bid(int amount) {
+            sendMessage(format(BID_COMMAND_FORMAT, amount));
+        }
+
+        public void join() {
+            sendMessage(JOIN_COMMAND_FORMAT);
+        }
+
+        private void sendMessage(final String message) {
+            try {
+                chat.sendMessage(message);
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
@@ -69,7 +87,7 @@ public class Main implements SniperListener {
     }
 
     private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
+        return format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
     private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException {
