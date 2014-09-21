@@ -6,6 +6,9 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.april1985.goos.AuctionEventListener.PriceSource.FromOtherBidder;
+import static com.april1985.goos.AuctionEventListener.PriceSource.FromSniper;
+
 /**
  * Created by sche on 9/18/14.
  */
@@ -38,6 +41,15 @@ public class AuctionSniperTest {
             }
         });
 
-        sniper.currentPrice(price, increment, AuctionEventListener.PriceSource.FromOtherBidder);
+        sniper.currentPrice(price, increment, FromOtherBidder);
+    }
+
+    @Test
+    public void reportsWinningWhenCurrentPriceComesFromSniper() {
+        context.checking(new Expectations() {{
+            atLeast(1).of(sniperListener).sniperWinning();
+        }});
+
+        sniper.currentPrice(123, 45, FromSniper);
     }
 }
