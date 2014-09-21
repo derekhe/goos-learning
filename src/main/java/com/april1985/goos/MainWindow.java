@@ -53,7 +53,25 @@ public class MainWindow extends JFrame {
         snipers.setStatusText(statusText);
     }
 
-    public class SnipersTableModel extends AbstractTableModel {
+    public void sniperStatusChanged(SniperState sniperState, String statusText) {
+        snipers.sniperStatusChanged(sniperState, statusText);
+    }
+
+    public enum Column {
+        ITEM_IDENTIFIER,
+        LAST_PRICE,
+        LAST_BID,
+        SNIPER_STATUS;
+
+        public static Column at(int offset) {
+            return values()[offset];
+        }
+    }
+
+    /**
+     * Created by sche on 9/21/14.
+     */
+    public static class SnipersTableModel extends AbstractTableModel {
         private String statusText = STATUS_JOINING;
 
         @Override
@@ -74,6 +92,10 @@ public class MainWindow extends JFrame {
         public void setStatusText(String newStatusText) {
             this.statusText = newStatusText;
             fireTableRowsUpdated(0, 0);
+        }
+
+        public void sniperStatusChanged(SniperState sniperState, String statusText) {
+
         }
     }
 }
