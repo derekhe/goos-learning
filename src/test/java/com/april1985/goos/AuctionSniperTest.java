@@ -15,6 +15,7 @@ import static com.april1985.goos.AuctionEventListener.PriceSource.FromSniper;
  */
 @RunWith(JMock.class)
 public class AuctionSniperTest {
+    private String ITEM_ID;
     private final Mockery context = new Mockery();
     private final Auction auction = context.mock(Auction.class);
     private final SniperListener sniperListener = context.mock(SniperListener.class);
@@ -37,7 +38,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperBidding();
+                allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
                 then(sniperStates.is("bidding"));
                 atLeast(1).of(sniperListener).sniperLost();
                 when(sniperStates.is("bidding"));
@@ -68,10 +69,11 @@ public class AuctionSniperTest {
     public void bidsHigherAndReportsBiddingWhenNewPriceArrives() {
         final int price = 1001;
         final int increment = 25;
+        final int bid = price + increment;
         context.checking(new Expectations() {
             {
                 one(auction).bid(price + increment);
-                atLeast(1).of(sniperListener).sniperBidding();
+                atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
             }
         });
 
