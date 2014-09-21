@@ -2,7 +2,6 @@ package com.april1985.goos;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
 
 /**
@@ -10,6 +9,7 @@ import java.awt.*;
  */
 public class MainWindow extends JFrame {
     public static final String STATUS_BIDDING = "Bidding";
+    public static final String STATUS_WINNING = "Winning";
     static String STATUS_JOINING = "Joining";
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -23,8 +23,7 @@ public class MainWindow extends JFrame {
         return result;
     }
 
-    public MainWindow()
-    {
+    public MainWindow() {
         super("Auction Sniper");
         setName(MAIN_WINDOW_NAME);
         add(sniperStatus);
