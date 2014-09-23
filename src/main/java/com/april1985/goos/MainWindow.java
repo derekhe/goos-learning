@@ -52,6 +52,11 @@ public class MainWindow extends JFrame {
         }
 
         @Override
+        public String getColumnName(int column) {
+            return Column.at(column).name;
+        }
+
+        @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             return Column.at(columnIndex).valueIn(sniperSnapshot);
         }
