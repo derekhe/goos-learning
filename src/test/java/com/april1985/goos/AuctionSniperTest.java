@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 
 import static com.april1985.goos.AuctionEventListener.PriceSource.FromOtherBidder;
 import static com.april1985.goos.AuctionEventListener.PriceSource.FromSniper;
+import static com.april1985.goos.SniperState.BIDDING;
+import static com.april1985.goos.SniperState.WINNING;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -41,7 +43,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.BIDDING)));
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
                 then(sniperStates.is("bidding"));
                 atLeast(1).of(sniperListener).sniperLost();
                 when(sniperStates.is("bidding"));
@@ -86,7 +88,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 one(auction).bid(price + increment);
-                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price, bid, SniperState.BIDDING));
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price, bid, BIDDING));
             }
         });
 
@@ -94,11 +96,20 @@ public class AuctionSniperTest {
     }
 
     @Test
-    public void reportsWinningWhenCurrentPriceComesFromSniper() {
-        context.checking(new Expectations() {{
-            atLeast(1).of(sniperListener).sniperWinning();
-        }});
+    public void reportsIsWinningWhenCurrentPriceComesFromSniper() {
+        context.checking(new Expectations() {
+            {
+                ignoring(auction);
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+                then(sniperStates.is("bidding"));
 
-        sniper.currentPrice(123, 45, FromSniper);
+                atLeast(1).of(sniperListener).sniperStateChanged(
+                        new SniperSnapshot(ITEM_ID, 135, 135, WINNING));
+                when(sniperStates.is("bidding"));
+            }
+        });
+
+        sniper.currentPrice(123, 12, FromOtherBidder);
+        sniper.currentPrice(135, 45, FromSniper);
     }
 }
