@@ -38,17 +38,6 @@ public class MainWindow extends JFrame {
         snipers.sniperStatusChanged(sniperSnapshot);
     }
 
-    public enum Column {
-        ITEM_IDENTIFIER,
-        LAST_PRICE,
-        LAST_BID,
-        SNIPER_STATE;
-
-        public static Column at(int offset) {
-            return values()[offset];
-        }
-    }
-
     public static class SnipersTableModel extends AbstractTableModel {
         private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
         private SniperSnapshot sniperSnapshot = STARTING_UP;
@@ -66,21 +55,10 @@ public class MainWindow extends JFrame {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            switch (Column.at(columnIndex)) {
-                case ITEM_IDENTIFIER:
-                    return sniperSnapshot.itemId;
-                case LAST_PRICE:
-                    return sniperSnapshot.lastPrice;
-                case LAST_BID:
-                    return sniperSnapshot.lastBid;
-                case SNIPER_STATE:
-                    return textFor(sniperSnapshot.state);
-                default:
-                    throw new IllegalArgumentException("No column at " + columnIndex);
-            }
+            return Column.at(columnIndex).valueIn(sniperSnapshot);
         }
 
-        private String textFor(SniperState state) {
+        public static String textFor(SniperState state) {
             return STATUS_TEXT[state.ordinal()];
         }
 

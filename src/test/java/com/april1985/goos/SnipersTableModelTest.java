@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import static com.april1985.goos.MainWindow.Column;
 import static com.april1985.goos.MainWindow.SnipersTableModel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
