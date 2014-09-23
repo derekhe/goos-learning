@@ -20,11 +20,11 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 @RunWith(JMock.class)
 public class AuctionSniperTest {
-    private String ITEM_ID;
+    private String ITEM_ID = "item id";
     private final Mockery context = new Mockery();
     private final Auction auction = context.mock(Auction.class);
     private final SniperListener sniperListener = context.mock(SniperListener.class);
-    private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener);
+    private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener, ITEM_ID);
     private final States sniperStates = context.states("sniper");
 
     @Test
@@ -69,7 +69,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperWinning();
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
                 then(sniperStates.is("winning"));
                 atLeast(1).of(sniperListener).sniperWon();
                 when(sniperStates.is("winning"));

@@ -9,7 +9,7 @@ import static com.april1985.goos.MainWindow.STATUS_LOST;
  */
 public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
-    private static final String SNPIER_PASSWORD = "sniper";
+    private static final String SNIPER_PASSWORD = "sniper";
     public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
     private AuctionSniperDriver driver;
     private String itemId;
@@ -20,7 +20,7 @@ public class ApplicationRunner {
             @Override
             public void run() {
                 try {
-                    Main.main(XMPP_HOSTNAME, SNIPER_ID, SNPIER_PASSWORD, auction.getItemId());
+                    Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.getItemId());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
