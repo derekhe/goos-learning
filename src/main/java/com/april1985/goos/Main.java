@@ -7,8 +7,8 @@ import org.jivesoftware.smack.XMPPException;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
 
+import static com.april1985.goos.MainWindow.SnipersTableModel;
 import static java.lang.String.format;
 
 /**
@@ -25,11 +25,17 @@ public class Main {
     public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d";
     public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 
+    private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
     private Chat notToBeGCd;
 
     public Main() throws Exception {
-        startUserInterface();
+        SwingUtilities.invokeAndWait(new Runnable() {
+            @Override
+            public void run() {
+                ui = new MainWindow(snipers);
+            }
+        });
     }
 
     public static void main(String... args) throws Exception {
@@ -48,7 +54,7 @@ public class Main {
 
         Auction auction = new XMPPAuction(chat);
 
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, new SniperStateDisplayer(), itemId)));
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
         auction.join();
     }
 
@@ -98,23 +104,20 @@ public class Main {
         return connection;
     }
 
-    private void startUserInterface() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                ui = new MainWindow();
-            }
-        });
-    }
+    public class SwingThreadSniperListener implements SniperListener {
 
-    public class SniperStateDisplayer implements SniperListener {
+        private SnipersTableModel snipers;
+
+        public SwingThreadSniperListener(SnipersTableModel snipers) {
+            this.snipers = snipers;
+        }
 
         @Override
         public void sniperStateChanged(final SniperSnapshot newSnapshot) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.sniperStatusChanged(newSnapshot);
+                    snipers.sniperStateChanged(newSnapshot);
                 }
             });
         }

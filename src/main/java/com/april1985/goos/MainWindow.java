@@ -10,10 +10,11 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     private static final String SNIPER_TABLE_NAME = "table status";
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    private final SnipersTableModel snipers = new SnipersTableModel();
+    private final SnipersTableModel snipers;
 
-    public MainWindow() {
+    public MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
+        this.snipers = snipers;
         setName(MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable());
         pack();
@@ -34,11 +35,7 @@ public class MainWindow extends JFrame {
         return snipersTable;
     }
 
-    public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
-        snipers.sniperStatusChanged(sniperSnapshot);
-    }
-
-    public static class SnipersTableModel extends AbstractTableModel {
+    public static class SnipersTableModel extends AbstractTableModel implements SniperListener {
         private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
         private SniperSnapshot sniperSnapshot = STARTING_UP;
         private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
@@ -62,7 +59,8 @@ public class MainWindow extends JFrame {
             return STATUS_TEXT[state.ordinal()];
         }
 
-        public void sniperStatusChanged(SniperSnapshot newSniperSnapshot) {
+        @Override
+        public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
             sniperSnapshot = newSniperSnapshot;
             fireTableRowsUpdated(0, 0);
         }
