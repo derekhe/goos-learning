@@ -114,11 +114,11 @@ public class Main {
         }
 
         @Override
-        public void sniperBidding(final SniperSnapshot state) {
+        public void sniperStateChanged(final SniperSnapshot newSnapshot) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    ui.sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
+                    ui.sniperStatusChanged(newSnapshot);
                 }
             });
         }

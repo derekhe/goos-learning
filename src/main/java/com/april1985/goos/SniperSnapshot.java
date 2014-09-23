@@ -7,11 +7,13 @@ public class SniperSnapshot {
     public final String itemId;
     public final int lastPrice;
     public final int lastBid;
+    public SniperState state;
 
-    public SniperSnapshot(String itemId, int lastPrice, int lastBid) {
+    public SniperSnapshot(String itemId, int lastPrice, int lastBid, SniperState state) {
         this.itemId = itemId;
         this.lastPrice = lastPrice;
         this.lastBid = lastBid;
+        this.state = state;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class SniperSnapshot {
         if (lastBid != that.lastBid) return false;
         if (lastPrice != that.lastPrice) return false;
         if (itemId != null ? !itemId.equals(that.itemId) : that.itemId != null) return false;
+        if (state != that.state) return false;
 
         return true;
     }
@@ -33,6 +36,7 @@ public class SniperSnapshot {
         int result = itemId != null ? itemId.hashCode() : 0;
         result = 31 * result + lastPrice;
         result = 31 * result + lastBid;
+        result = 31 * result + (state != null ? state.hashCode() : 0);
         return result;
     }
 }

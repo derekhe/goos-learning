@@ -43,8 +43,8 @@ public class MainWindow extends JFrame {
         snipers.setStatusText(statusText);
     }
 
-    public void sniperStatusChanged(SniperSnapshot sniperSnapshot, String statusText) {
-        snipers.sniperStatusChanged(sniperSnapshot, statusText);
+    public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
+        snipers.sniperStatusChanged(sniperSnapshot);
     }
 
     public enum Column {
@@ -59,9 +59,10 @@ public class MainWindow extends JFrame {
     }
 
     public static class SnipersTableModel extends AbstractTableModel {
-        private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0);
+        private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.BIDDING);
         private SniperSnapshot sniperSnapshot = STARTING_UP;
         private String statusText = STATUS_JOINING;
+        private static String[] STATUS_TEXT = {MainWindow.STATUS_JOINING, MainWindow.STATUS_BIDDING};
 
         @Override
         public int getRowCount() {
@@ -94,9 +95,9 @@ public class MainWindow extends JFrame {
             fireTableRowsUpdated(0, 0);
         }
 
-        public void sniperStatusChanged(SniperSnapshot newSniperSnapshot, String newStatusText) {
+        public void sniperStatusChanged(SniperSnapshot newSniperSnapshot) {
             sniperSnapshot = newSniperSnapshot;
-            statusText = newStatusText;
+            statusText = STATUS_TEXT[newSniperSnapshot.state.ordinal()];
             fireTableRowsUpdated(0, 0);
         }
     }
