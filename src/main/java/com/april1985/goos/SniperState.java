@@ -1,7 +1,5 @@
 package com.april1985.goos;
 
-import com.objogate.exception.Defect;
-
 /**
  * Created by sche on 9/23/14.
  */
