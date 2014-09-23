@@ -1,8 +1,6 @@
 package com.april1985.goos;
 
 import static com.april1985.goos.FakeAuctionServer.XMPP_HOSTNAME;
-import static com.april1985.goos.MainWindow.STATUS_JOINING;
-import static com.april1985.goos.MainWindow.STATUS_LOST;
 
 /**
  * Created by sche on 9/17/14.
@@ -29,11 +27,11 @@ public class ApplicationRunner {
         thread.setDaemon(true);
         thread.start();
         driver = new AuctionSniperDriver(1000);
-        driver.showSniperStatus(STATUS_JOINING);
+        driver.showSniperStatus("Joining");
     }
 
     public void showSniperHasLostAuction() {
-        driver.showSniperStatus(STATUS_LOST);
+        driver.showSniperStatus("Lost");
     }
 
     public void stop() {
@@ -44,18 +42,18 @@ public class ApplicationRunner {
     }
 
     public void hasShownSniperIsBidding() {
-        driver.showSniperStatus(MainWindow.STATUS_BIDDING);
+        driver.showSniperStatus("Bidding");
     }
 
     public void hasShownSniperIsWinning(int winningBid) {
-        driver.showSniperStatus(itemId, winningBid, winningBid, MainWindow.STATUS_WINNING);
+        driver.showSniperStatus(itemId, winningBid, winningBid, "Winning");
     }
 
     public void hasShownSniperIsBidding(int lastPrice, int lastBid) {
-        driver.showSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
+        driver.showSniperStatus(itemId, lastPrice, lastBid, "Bidding");
     }
 
     public void showSniperHasWonAuction(int lastPrice) {
-        driver.showSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON);
+        driver.showSniperStatus(itemId, lastPrice, lastPrice, "Won");
     }
 }

@@ -6,9 +6,5 @@ import java.util.EventListener;
  * Created by sche on 9/18/14.
  */
 public interface SniperListener extends EventListener {
-    void sniperLost();
-
     void sniperStateChanged(SniperSnapshot sniperSnapshot);
-
-    void sniperWon();
 }

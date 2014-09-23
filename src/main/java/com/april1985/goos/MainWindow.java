@@ -8,13 +8,8 @@ import java.awt.*;
  * Created by sche on 9/17/14.
  */
 public class MainWindow extends JFrame {
-    public static final String STATUS_BIDDING = "Bidding";
-    public static final String STATUS_WINNING = "Winning";
-    public static final String STATUS_WON = "Won";
     private static final String SNIPER_TABLE_NAME = "table status";
-    static String STATUS_JOINING = "Joining";
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    public static final String STATUS_LOST = "Lost";
     private final SnipersTableModel snipers = new SnipersTableModel();
 
     public MainWindow() {
@@ -39,10 +34,6 @@ public class MainWindow extends JFrame {
         return snipersTable;
     }
 
-    public void showStatus(String statusText) {
-        snipers.setStatusText(statusText);
-    }
-
     public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
         snipers.sniperStatusChanged(sniperSnapshot);
     }
@@ -59,10 +50,9 @@ public class MainWindow extends JFrame {
     }
 
     public static class SnipersTableModel extends AbstractTableModel {
-        private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.BIDDING);
+        private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
         private SniperSnapshot sniperSnapshot = STARTING_UP;
-        private String statusText = STATUS_JOINING;
-        private static String[] STATUS_TEXT = {STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING};
+        private static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won"};
 
         @Override
         public int getRowCount() {
@@ -84,20 +74,18 @@ public class MainWindow extends JFrame {
                 case LAST_BID:
                     return sniperSnapshot.lastBid;
                 case SNIPER_STATE:
-                    return statusText;
+                    return textFor(sniperSnapshot.state);
                 default:
                     throw new IllegalArgumentException("No column at " + columnIndex);
             }
         }
 
-        public void setStatusText(String newStatusText) {
-            this.statusText = newStatusText;
-            fireTableRowsUpdated(0, 0);
+        private String textFor(SniperState state) {
+            return STATUS_TEXT[state.ordinal()];
         }
 
         public void sniperStatusChanged(SniperSnapshot newSniperSnapshot) {
             sniperSnapshot = newSniperSnapshot;
-            statusText = STATUS_TEXT[newSniperSnapshot.state.ordinal()];
             fireTableRowsUpdated(0, 0);
         }
     }

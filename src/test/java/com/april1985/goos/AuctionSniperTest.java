@@ -11,8 +11,7 @@ import org.junit.runner.RunWith;
 
 import static com.april1985.goos.AuctionEventListener.PriceSource.FromOtherBidder;
 import static com.april1985.goos.AuctionEventListener.PriceSource.FromSniper;
-import static com.april1985.goos.SniperState.BIDDING;
-import static com.april1985.goos.SniperState.WINNING;
+import static com.april1985.goos.SniperState.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -31,7 +30,7 @@ public class AuctionSniperTest {
     public void reportsLostWhenAuctionClosesImmediately() {
         context.checking(new Expectations() {
             {
-                one(sniperListener).sniperLost();
+                one(sniperListener).sniperStateChanged(with(aSniperThatIs(LOST)));
             }
         });
 
@@ -45,7 +44,7 @@ public class AuctionSniperTest {
                 ignoring(auction);
                 allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
                 then(sniperStates.is("bidding"));
-                atLeast(1).of(sniperListener).sniperLost();
+                atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(LOST)));
                 when(sniperStates.is("bidding"));
             }
         });
@@ -71,7 +70,7 @@ public class AuctionSniperTest {
                 ignoring(auction);
                 allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
                 then(sniperStates.is("winning"));
-                atLeast(1).of(sniperListener).sniperWon();
+                atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(WON)));
                 when(sniperStates.is("winning"));
             }
         });
